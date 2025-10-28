@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "prod_whey_v1",
+      "name": "Whey Protein 2kg",
+      "category": "Supplements",
+      "price": 69.0,
+      "tags": ["Protein", "Post-Workout"],
+      "images": ["generated:whey"],
+      "details": "24g protein per serving."
+    },
+    {
+      "id": "prod_mat_01",
+      "name": "Grip Yoga Mat",
+      "category": "Accessories",
+      "price": 39.0,
+      "tags": ["Yoga", "Grip"],
+      "images": ["generated:mat"],
+      "details": "Dual-layer mat with superior grip."
+    }
+  ]
+}

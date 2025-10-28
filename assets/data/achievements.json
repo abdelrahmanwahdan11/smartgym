@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "achv_001",
+      "type": "streak",
+      "date": "2025-10-01",
+      "value": 7,
+      "label": "Weekly Streak"
+    },
+    {
+      "id": "achv_002",
+      "type": "classes",
+      "date": "2025-10-15",
+      "value": 20,
+      "label": "20 Classes Completed"
+    }
+  ]
+}

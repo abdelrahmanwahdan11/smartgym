@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "gym_001",
+      "name": "Velocity Fitness",
+      "location_text": "Rawabi City",
+      "amenities": ["Showers", "Sauna", "Pool", "Parking"],
+      "equipment": ["Treadmill", "Squat Rack", "Bench Press", "Dumbbells"],
+      "rating": 4.6,
+      "photos": ["generated:velocity"],
+      "discount": 10
+    },
+    {
+      "id": "gym_002",
+      "name": "Pulse Lab",
+      "location_text": "Doha West Bay",
+      "amenities": ["Lockers", "Steam Room"],
+      "equipment": ["Rowers", "Kettlebells", "Battle Ropes"],
+      "rating": 4.4,
+      "photos": ["generated:pulse"],
+      "discount": 15
+    }
+  ]
+}

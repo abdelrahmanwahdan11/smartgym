@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "id": "class_101",
+      "title": "HIIT Burn",
+      "type": "HIIT",
+      "level": "Intermediate",
+      "duration_min": 45,
+      "intensity": "High",
+      "calories_est": 420,
+      "gym_id": "gym_001",
+      "trainer_id": "tr_02",
+      "start_time": "2025-10-28T18:00:00",
+      "capacity": 18,
+      "booked": 12,
+      "requirements": ["Towel", "Water Bottle"],
+      "description": "Fast-paced intervals targeting full body conditioning."
+    },
+    {
+      "id": "class_102",
+      "title": "Sunrise Flow",
+      "type": "Yoga",
+      "level": "Beginner",
+      "duration_min": 60,
+      "intensity": "Low",
+      "calories_est": 200,
+      "gym_id": "gym_002",
+      "trainer_id": "tr_01",
+      "start_time": "2025-10-29T06:00:00",
+      "capacity": 20,
+      "booked": 8,
+      "requirements": ["Mat", "Towel"],
+      "description": "Gentle vinyasa practice with sunrise views."
+    }
+  ]
+}
