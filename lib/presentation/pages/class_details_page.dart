@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 
 import '../../core/app_initializer.dart';
 import '../../core/routes/app_routes.dart';
+import '../../core/routes/route_args.dart';
 import '../../data/models/booking_model.dart';
 import '../../data/models/class_model.dart';
+import '../../data/repositories/classes_repository.dart';
 import '../controllers/schedule_controller.dart';
 import '../widgets/tag_pill.dart';
 
@@ -16,17 +18,33 @@ class ClassDetailsPage extends StatefulWidget {
 }
 
 class _ClassDetailsPageState extends State<ClassDetailsPage> {
-  late ClassModel classModel;
+  ClassModel? classModel;
   late ScheduleController schedule;
   bool joinedWaitlist = false;
   bool autoConfirm = false;
+  bool isLoading = true;
+  late final ClassDetailsArgs args;
 
   @override
   void initState() {
     super.initState();
-    classModel = Get.arguments as ClassModel;
+    args = ClassDetailsArgs.from(Get.parameters, Get.arguments);
     schedule = Get.find<ScheduleController>();
     _restoreWaitlist();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final repo = Get.find<ClassesRepository>();
+    final resolved = args.initial ?? await repo.findById(args.id);
+    if (!mounted) return;
+    setState(() {
+      classModel = resolved;
+      isLoading = false;
+    });
+    if (resolved == null) {
+      Get.snackbar('errors'.tr, 'unexpected_error'.tr);
+    }
   }
 
   Future<void> _restoreWaitlist() async {
@@ -37,8 +55,8 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
     });
   }
 
-  String get _joinKey => 'waitlist.${classModel.id}';
-  String get _autoKey => 'waitlist.auto.${classModel.id}';
+  String get _joinKey => 'waitlist.${args.id}';
+  String get _autoKey => 'waitlist.auto.${args.id}';
 
   Future<void> _toggleWaitlist() async {
     setState(() {
@@ -57,9 +75,14 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final resolved = classModel;
     return Scaffold(
-      appBar: AppBar(title: Text(classModel.title)),
-      body: ListView(
+      appBar: AppBar(title: Text(resolved?.title ?? 'loading'.tr)),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : resolved == null
+              ? Center(child: Text('unexpected_error'.tr))
+              : ListView(
         padding: const EdgeInsets.all(24),
         children: [
           Container(
@@ -75,20 +98,20 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
             spacing: 8,
             runSpacing: 8,
             children: [
-              TagPill(label: classModel.type),
-              TagPill(label: classModel.level),
-              TagPill(label: '${classModel.durationMin} min'),
-              TagPill(label: classModel.intensity),
+              TagPill(label: resolved.type),
+              TagPill(label: resolved.level),
+              TagPill(label: '${resolved.durationMin} min'),
+              TagPill(label: resolved.intensity),
             ],
           ),
           const SizedBox(height: 16),
-          Text(classModel.description, style: Theme.of(context).textTheme.bodyLarge),
+          Text(resolved.description, style: Theme.of(context).textTheme.bodyLarge),
           const SizedBox(height: 16),
           Text('requirements'.tr, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
-          ...classModel.requirements.map((e) => ListTile(leading: const Icon(Icons.check), title: Text(e))),
+          ...resolved.requirements.map((e) => ListTile(leading: const Icon(Icons.check), title: Text(e))),
           const SizedBox(height: 16),
-          Text('${'capacity'.tr}: ${classModel.capacity} | ${'booked'.tr}: ${classModel.booked}'),
+          Text('${'capacity'.tr}: ${resolved.capacity} | ${'booked'.tr}: ${resolved.booked}'),
           const SizedBox(height: 24),
           FilledButton(
             onPressed: () async {
@@ -96,7 +119,7 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
                 BookingModel(
                   id: DateTime.now().millisecondsSinceEpoch.toString(),
                   userId: 'guest',
-                  classId: classModel.id,
+                  classId: resolved.id,
                   status: 'booked',
                   token: 'PASS',
                   createdAt: DateTime.now(),

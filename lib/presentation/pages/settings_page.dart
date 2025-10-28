@@ -77,6 +77,12 @@ class SettingsPage extends StatelessWidget {
               onChanged: (value) => featureFlags.updateFlag(miniLive: value),
             ),
           ),
+          ListTile(
+            leading: const Icon(Icons.build_circle_outlined),
+            title: Text('qa_tools'.tr),
+            subtitle: Text('qa_mode'.tr),
+            onTap: () => Get.toNamed(AppRoutes.qaTools),
+          ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.file_download),

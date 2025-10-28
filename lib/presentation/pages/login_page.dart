@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../core/app_initializer.dart';
 import '../../core/routes/app_routes.dart';
+import '../../core/utils/app_validators.dart';
 import '../controllers/auth_controller.dart';
 import '../widgets/buttons.dart';
 
@@ -50,15 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(labelText: 'email'.tr),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'required'.tr;
-                    }
-                    if (!value.contains('@')) {
-                      return 'invalid_email'.tr;
-                    }
-                    return null;
-                  },
+                  validator: AppValidators.email,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -71,15 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'required'.tr;
-                    }
-                    if (value.length < 6) {
-                      return 'min_6_chars'.tr;
-                    }
-                    return null;
-                  },
+                  validator: (value) => AppValidators.minLength(value, 6),
                 ),
                 const SizedBox(height: 16),
                 Row(

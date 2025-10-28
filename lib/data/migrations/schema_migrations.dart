@@ -28,6 +28,10 @@ class SchemaMigrations {
       await _migrateToV5(fromVersion: fromVersion);
     }
 
+    if (fromVersion < 8 && currentVersion >= 8) {
+      await _migrateToV8(fromVersion: fromVersion);
+    }
+
     await store.setString(versionKey, currentVersion.toString());
   }
 
@@ -125,6 +129,57 @@ class SchemaMigrations {
     await store.remove('search.index');
     await store.setString('search.synonyms_version', '1');
     if (fromVersion < 5) {
+      await store.setString('schema.migrated_from', fromVersion.toString());
+    }
+  }
+
+  Future<void> _migrateToV8({required int fromVersion}) async {
+    final backup = <String, dynamic>{};
+    for (final key in store.getKeys()) {
+      if (key.startsWith('backup.')) {
+        continue;
+      }
+      final value = store.getValue(key);
+      if (value == null) {
+        continue;
+      }
+      if (value is String ||
+          value is bool ||
+          value is int ||
+          value is double ||
+          value is List<String>) {
+        backup[key] = value;
+      }
+    }
+    if (backup.isNotEmpty) {
+      await store.setString('backup.v7', jsonEncode(backup));
+    }
+
+    await store.setStringList(
+      'ui.favorites.classes',
+      store.getStringList('ui.favorites.classes') ?? <String>[],
+    );
+    await store.setStringList(
+      'ui.favorites.gyms',
+      store.getStringList('ui.favorites.gyms') ?? <String>[],
+    );
+    await store.setStringList(
+      'ui.favorites.trainers',
+      store.getStringList('ui.favorites.trainers') ?? <String>[],
+    );
+
+    final fx = double.tryParse(store.getString('currency.fx') ?? '') ?? 1.0;
+    await store.setString('currency.fx', fx.toStringAsFixed(4));
+    await store.setBool('vat.enabled', store.getBool('vat.enabled') ?? true);
+    await store.setBool('prefs.reduce_motion', store.getBool('prefs.reduce_motion') ?? false);
+    await store.setBool('prefs.high_contrast', store.getBool('prefs.high_contrast') ?? false);
+
+    await store.remove('feature_flags.v5');
+    await store.setJson('feature_flags.v8', store.getJson('feature_flags.v8') ?? <String, dynamic>{});
+
+    await store.remove('search.index');
+    await store.setString('schema.last_migration', '8');
+    if (fromVersion < 8) {
       await store.setString('schema.migrated_from', fromVersion.toString());
     }
   }

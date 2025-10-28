@@ -18,4 +18,14 @@ class GymsRepository {
     final overlay = _providerRepository.overlayGyms();
     return [...seeded, ...overlay];
   }
+
+  Future<GymModel?> findById(String id) async {
+    final items = await fetchGyms();
+    for (final item in items) {
+      if (item.id == id) {
+        return item;
+      }
+    }
+    return null;
+  }
 }

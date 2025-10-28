@@ -18,4 +18,14 @@ class ClassesRepository {
     final overlay = _providerRepository.overlayClasses();
     return [...seeded, ...overlay];
   }
+
+  Future<ClassModel?> findById(String id) async {
+    final items = await fetchClasses();
+    for (final item in items) {
+      if (item.id == id) {
+        return item;
+      }
+    }
+    return null;
+  }
 }

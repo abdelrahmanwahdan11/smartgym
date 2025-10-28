@@ -19,7 +19,7 @@ class AppInitializer {
     _store = LocalStore(_prefs!);
     await SeedLoader.ensureSeedLoaded();
     await _ensureSeedAccepted();
-    await ensureSchemaVersion(targetVersion: 5);
+    await ensureSchemaVersion(targetVersion: 8);
   }
 
   static Future<void> _ensureSeedAccepted() async {

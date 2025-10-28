@@ -45,4 +45,5 @@ class AppRoutes {
   static const reports = '/reports';
   static const settingsSecurity = '/settings/security';
   static const settingsFormatting = '/settings/formatting';
+  static const qaTools = '/qa';
 }

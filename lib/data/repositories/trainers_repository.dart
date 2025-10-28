@@ -18,4 +18,14 @@ class TrainersRepository {
     final overlay = _providerRepository.overlayTrainers();
     return [...seeded, ...overlay];
   }
+
+  Future<TrainerModel?> findById(String id) async {
+    final items = await fetchTrainers();
+    for (final item in items) {
+      if (item.id == id) {
+        return item;
+      }
+    }
+    return null;
+  }
 }

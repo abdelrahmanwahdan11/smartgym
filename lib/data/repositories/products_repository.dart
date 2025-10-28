@@ -18,4 +18,14 @@ class ProductsRepository {
     final overlay = _providerRepository.overlayProducts();
     return [...seeded, ...overlay];
   }
+
+  Future<ProductModel?> findById(String id) async {
+    final items = await fetchProducts();
+    for (final item in items) {
+      if (item.id == id) {
+        return item;
+      }
+    }
+    return null;
+  }
 }

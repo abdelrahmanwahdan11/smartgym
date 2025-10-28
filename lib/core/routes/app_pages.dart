@@ -32,6 +32,7 @@ import '../../presentation/pages/qr_pass_page.dart';
 import '../../presentation/pages/reminders_page.dart';
 import '../../presentation/pages/hydration/hydration_page.dart';
 import '../../presentation/pages/settings_page.dart';
+import '../../presentation/pages/qa/qa_tools_page.dart';
 import '../../presentation/pages/share_card_page.dart';
 import '../../presentation/pages/signup_page.dart';
 import '../../presentation/pages/splash_page.dart';
@@ -108,6 +109,7 @@ class AppPages {
     GetPage(name: AppRoutes.qrPass, page: () => const QrPassPage()),
     GetPage(name: AppRoutes.reminders, page: () => const RemindersPage()),
     GetPage(name: AppRoutes.settings, page: () => const SettingsPage()),
+    GetPage(name: AppRoutes.qaTools, page: () => const QaToolsPage()),
     GetPage(name: AppRoutes.notifications, page: () => const NotificationsPage()),
     GetPage(name: AppRoutes.account, page: () => const AccountPage()),
     GetPage(

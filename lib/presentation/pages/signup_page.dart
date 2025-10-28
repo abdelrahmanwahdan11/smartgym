@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/routes/app_routes.dart';
+import '../../core/utils/app_validators.dart';
 import '../controllers/auth_controller.dart';
 import '../models/user_model.dart';
 import '../widgets/buttons.dart';
@@ -36,18 +37,14 @@ class _SignupPageState extends State<SignupPage> {
               children: [
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                  validator: (value) => value == null || value.isEmpty ? 'required'.tr : null,
+                  decoration: InputDecoration(labelText: 'name'.tr),
+                  validator: AppValidators.requiredField,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(labelText: 'email'.tr),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) return 'required'.tr;
-                    if (!value.contains('@')) return 'invalid_email'.tr;
-                    return null;
-                  },
+                  validator: AppValidators.email,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -60,11 +57,7 @@ class _SignupPageState extends State<SignupPage> {
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) return 'required'.tr;
-                    if (value.length < 6) return 'min_6_chars'.tr;
-                    return null;
-                  },
+                  validator: (value) => AppValidators.minLength(value, 6),
                 ),
                 const SizedBox(height: 24),
                 PrimaryButton(label: 'signup'.tr, onPressed: _signup),
