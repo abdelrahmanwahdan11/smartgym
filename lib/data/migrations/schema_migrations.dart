@@ -112,6 +112,14 @@ class SchemaMigrations {
     await store.setJson('saved_searches.store', store.getJson('saved_searches.store') ?? <String, dynamic>{});
     await store.setBool('safe_mode.enabled', store.getBool('safe_mode.enabled') ?? false);
     await store.setJson('feature_flags.v5', store.getJson('feature_flags.v5') ?? <String, dynamic>{});
+    await store.setString('ui.view_mode.classes', store.getString('ui.view_mode.classes') ?? 'list');
+    await store.setString('ui.grid_density', store.getString('ui.grid_density') ?? 'comfortable');
+    await store.setBool('ui.show_parallax_headers', store.getBool('ui.show_parallax_headers') ?? true);
+    await store.setBool('ui.filter_drawer_persistent', store.getBool('ui.filter_drawer_persistent') ?? false);
+    await store.setString('ui.theme_preview.last_seed', store.getString('ui.theme_preview.last_seed') ?? '');
+    await store.setStringList('ui.favorites.classes', store.getStringList('ui.favorites.classes') ?? <String>[]);
+    await store.setStringList('ui.favorites.gyms', store.getStringList('ui.favorites.gyms') ?? <String>[]);
+    await store.setStringList('ui.favorites.trainers', store.getStringList('ui.favorites.trainers') ?? <String>[]);
 
     await store.remove('feature_flags.v3');
     await store.remove('search.index');
