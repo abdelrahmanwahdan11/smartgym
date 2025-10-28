@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../constants.dart';
+import 'app_tokens.dart';
 
 class AppTheme {
   static ThemeData light(Color primary, {bool highContrast = false}) =>
@@ -28,6 +29,17 @@ class AppTheme {
         : colorScheme.surfaceVariant.withOpacity(0.4);
 
     final borderRadius = BorderRadius.circular(AppConstants.radiusLg);
+
+    const tokens = AppTokens(
+      spacingXs: AppConstants.spacingXs,
+      spacingSm: AppConstants.spacingSm,
+      spacingMed: AppConstants.spacingMd,
+      spacingLg: AppConstants.spacingLg,
+      spacingXl: AppConstants.spacingXl,
+      animationFast: AppConstants.animationFast,
+      animationMed: AppConstants.animationMed,
+      animationSlow: AppConstants.animationSlow,
+    );
 
     return ThemeData(
       useMaterial3: true,
@@ -175,6 +187,7 @@ class AppTheme {
           TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
         },
       ),
+      extensions: const <ThemeExtension<dynamic>>[tokens],
     );
   }
 

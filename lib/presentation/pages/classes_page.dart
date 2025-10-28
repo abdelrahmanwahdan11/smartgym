@@ -9,7 +9,8 @@ import '../controllers/classes_controller.dart';
 import '../controllers/injury_controller.dart';
 import '../widgets/glass_card.dart';
 import '../widgets/gradient_app_bar.dart';
-import '../widgets/search_bar.dart';
+import '../widgets/m3_search_bar.dart';
+import '../widgets/skeleton.dart';
 import '../widgets/states.dart';
 import '../widgets/tag_pill.dart';
 
@@ -54,10 +55,15 @@ class ClassesPage extends GetView<ClassesController> {
               ),
               child: Column(
                 children: [
-                  DebouncedSearchBar(
-                    hintText: 'search_placeholder'.tr,
-                    onChanged: controller.updateQuery,
-                  ),
+                  Obx(() {
+                    final _ = controller.displayed.length; // ignore: unused_local_variable
+                    return M3SearchBar(
+                      hintText: 'search_placeholder'.tr,
+                      onQueryChanged: controller.updateQuery,
+                      onSubmitted: controller.updateQuery,
+                      suggestions: controller.searchSuggestions,
+                    );
+                  }),
                   const SizedBox(height: AppConstants.spacingSm),
                   _ViewModeToggle(
                     controller: controller,
@@ -70,10 +76,23 @@ class ClassesPage extends GetView<ClassesController> {
           _QuickFilterHeader(controller: controller),
           Obx(() {
             if (controller.isLoading.value) {
-              return const SliverToBoxAdapter(
+              return SliverToBoxAdapter(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppConstants.spacingXl),
-                  child: Center(child: CircularProgressIndicator()),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.spacingLg,
+                    vertical: AppConstants.spacingLg,
+                  ),
+                  child: Column(
+                    children: List.generate(
+                      6,
+                      (index) => const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppConstants.spacingSm,
+                        ),
+                        child: Skeleton(height: 120),
+                      ),
+                    ),
+                  ),
                 ),
               );
             }

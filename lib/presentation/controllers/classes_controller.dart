@@ -68,6 +68,22 @@ class ClassesController extends GetxController with GuardedControllerMixin {
   List<ClassModel> get favorites =>
       _allClasses.where((c) => favoriteClassIds.contains(c.id)).toList();
 
+  List<String> get searchSuggestions {
+    final set = <String>{};
+    for (final entry in _index.values) {
+      set
+        ..add(entry.classModel.title)
+        ..add(entry.classModel.type)
+        ..add(entry.classModel.level)
+        ..add(entry.gymName)
+        ..add(entry.trainerName);
+    }
+    return set
+        .where((element) => element.trim().isNotEmpty)
+        .take(12)
+        .toList();
+  }
+
   @override
   void onInit() {
     super.onInit();
