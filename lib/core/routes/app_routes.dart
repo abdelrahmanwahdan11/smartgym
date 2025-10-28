@@ -17,6 +17,7 @@ class AppRoutes {
   static const product = '/product';
   static const cart = '/cart';
   static const checkout = '/checkout';
+  static const search = '/search';
   static const wallet = '/wallet';
   static const shareCard = '/share-card';
   static const qrPass = '/qr-pass';

@@ -6,6 +6,7 @@ import '../../presentation/bindings/home_binding.dart';
 import '../../presentation/bindings/store_binding.dart';
 import '../../presentation/bindings/trainers_binding.dart';
 import '../../presentation/bindings/timers_binding.dart';
+import '../../presentation/bindings/universal_search_binding.dart';
 import '../../presentation/pages/account_page.dart';
 import '../../presentation/pages/cart_page.dart';
 import '../../presentation/pages/buddy/buddy_match_page.dart';
@@ -29,6 +30,7 @@ import '../../presentation/pages/product_details_page.dart';
 import '../../presentation/pages/program/program_designer_page.dart';
 import '../../presentation/pages/progress_page.dart';
 import '../../presentation/pages/qr_pass_page.dart';
+import '../../presentation/pages/universal_search_page.dart';
 import '../../presentation/pages/reminders_page.dart';
 import '../../presentation/pages/hydration/hydration_page.dart';
 import '../../presentation/pages/settings_page.dart';
@@ -67,6 +69,11 @@ class AppPages {
       name: AppRoutes.classes,
       page: () => const ClassesPage(),
       binding: ClassesBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.search,
+      page: () => const UniversalSearchPage(),
+      binding: UniversalSearchBinding(),
     ),
     GetPage(
       name: '${AppRoutes.classDetails}/:id',

@@ -24,7 +24,7 @@ class HomeDashboardPage extends GetView<HomeController> {
             actions: [
               IconButton(
                 icon: const Icon(Icons.search),
-                onPressed: () => Get.toNamed(AppRoutes.classes),
+                onPressed: () => Get.toNamed(AppRoutes.search),
               ),
             ],
           ),
