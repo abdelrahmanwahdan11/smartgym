@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../data/models/product_model.dart';
+import '../controllers/cart_controller.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   const ProductDetailsPage({super.key});
@@ -9,6 +10,7 @@ class ProductDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProductModel product = Get.arguments as ProductModel;
+    final cart = Get.find<CartController>();
     return Scaffold(
       appBar: AppBar(title: Text(product.name)),
       body: ListView(
@@ -30,7 +32,13 @@ class ProductDetailsPage extends StatelessWidget {
           const SizedBox(height: 16),
           Text(product.details, style: Theme.of(context).textTheme.bodyLarge),
           const SizedBox(height: 24),
-          FilledButton(onPressed: () => Get.snackbar('Added', 'Added to cart'), child: const Text('Add to cart')),
+          FilledButton(
+            onPressed: () async {
+              await cart.addProduct(product);
+              Get.snackbar('cart'.tr, 'added_to_cart'.trParams({'item': product.name}));
+            },
+            child: Text('add_to_cart'.tr),
+          ),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../data/models/subscription_plan_model.dart';
 import '../../data/repositories/subscriptions_repository.dart';
+import '../controllers/cart_controller.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({super.key});
@@ -14,6 +15,7 @@ class WalletPage extends StatefulWidget {
 class _WalletPageState extends State<WalletPage> {
   final _repo = SubscriptionsRepository();
   List<SubscriptionPlanModel> _plans = [];
+  late final CartController _cart = Get.find<CartController>();
 
   @override
   void initState() {
@@ -33,7 +35,7 @@ class _WalletPageState extends State<WalletPage> {
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          const Text('Plans', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Text('wallet_plans'.tr, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           ..._plans.map((plan) => Card(
                 child: ListTile(
@@ -44,7 +46,25 @@ class _WalletPageState extends State<WalletPage> {
                 ),
               )),
           const SizedBox(height: 24),
-          const Text('Loyalty points: 1200'),
+          Text('wallet_orders'.tr, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 12),
+          Obx(() {
+            if (_cart.orders.isEmpty) {
+              return Text('wallet_orders_empty'.tr, style: Theme.of(context).textTheme.bodyMedium);
+            }
+            return Column(
+              children: _cart.orders
+                  .map(
+                    (order) => ListTile(
+                      leading: Icon(order.status == 'success' ? Icons.check_circle : Icons.error, color: order.status == 'success' ? Colors.green : Colors.orange),
+                      title: Text('${order.total.toStringAsFixed(2)} USD'),
+                      subtitle: Text(order.createdAt.toLocal().toString()),
+                      trailing: Text(order.status.tr),
+                    ),
+                  )
+                  .toList(),
+            );
+          }),
         ],
       ),
     );

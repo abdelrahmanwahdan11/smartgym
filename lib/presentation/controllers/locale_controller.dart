@@ -26,4 +26,8 @@ class LocaleController extends GetxController {
     await AppInitializer.prefs.setString('locale.current', code);
     Get.updateLocale(newLocale);
   }
+
+  Future<void> reset() async {
+    await updateLocale(const Locale('en', 'US'));
+  }
 }

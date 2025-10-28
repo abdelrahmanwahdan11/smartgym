@@ -15,6 +15,8 @@ class AppRoutes {
   static const progress = '/progress';
   static const store = '/store';
   static const product = '/product';
+  static const cart = '/cart';
+  static const checkout = '/checkout';
   static const wallet = '/wallet';
   static const shareCard = '/share-card';
   static const qrPass = '/qr-pass';

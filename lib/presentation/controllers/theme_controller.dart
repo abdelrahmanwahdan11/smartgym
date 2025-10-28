@@ -34,4 +34,9 @@ class ThemeController extends GetxController {
     isDarkMode.value = value;
     await AppInitializer.prefs.setBool('theme.dark_mode', value);
   }
+
+  Future<void> reset() async {
+    await updatePrimaryColor(const Color(0xFF00B3A4));
+    await toggleDarkMode(false);
+  }
 }

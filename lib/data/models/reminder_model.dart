@@ -28,4 +28,12 @@ class ReminderModel {
         itemsToBring: itemsToBring,
         enabled: enabled ?? this.enabled,
       );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'class_id': classId,
+        'time': time.toIso8601String(),
+        'items_to_bring': itemsToBring,
+        'enabled': enabled,
+      };
 }

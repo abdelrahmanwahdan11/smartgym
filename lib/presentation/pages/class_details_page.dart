@@ -48,8 +48,8 @@ class ClassDetailsPage extends StatelessWidget {
           Text('Capacity: ${classModel.capacity} | Booked: ${classModel.booked}'),
           const SizedBox(height: 24),
           FilledButton(
-            onPressed: () {
-              schedule.addBooking(
+            onPressed: () async {
+              await schedule.addBooking(
                 BookingModel(
                   id: DateTime.now().millisecondsSinceEpoch.toString(),
                   userId: 'guest',

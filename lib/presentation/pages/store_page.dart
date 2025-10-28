@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/routes/app_routes.dart';
+import '../controllers/cart_controller.dart';
 import '../controllers/store_controller.dart';
 import '../widgets/paginator_list.dart';
 import '../widgets/search_bar.dart';
@@ -12,10 +13,38 @@ class StorePage extends GetView<StoreController> {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Get.find<CartController>();
     return Scaffold(
       appBar: AppBar(
         title: Text('store'.tr),
-        actions: [IconButton(onPressed: controller.togglePriceSort, icon: const Icon(Icons.sort))],
+        actions: [
+          IconButton(onPressed: controller.togglePriceSort, icon: const Icon(Icons.sort)),
+          Obx(() {
+            final count = cart.itemCount;
+            final icon = IconButton(
+              onPressed: () => Get.toNamed(AppRoutes.cart),
+              icon: const Icon(Icons.shopping_cart_outlined),
+            );
+            if (count == 0) {
+              return icon;
+            }
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                icon,
+                Positioned(
+                  right: 6,
+                  top: 6,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                    child: Text('$count', style: const TextStyle(color: Colors.white, fontSize: 12)),
+                  ),
+                ),
+              ],
+            );
+          }),
+        ],
       ),
       body: Column(
         children: [
@@ -66,7 +95,20 @@ class StorePage extends GetView<StoreController> {
                       leading: CircleAvatar(child: Text(product.name.substring(0, 1))),
                       title: Text(product.name),
                       subtitle: Text(product.tags.join(', ')),
-                      trailing: Text('${product.price.toStringAsFixed(2)} USD'),
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text('${product.price.toStringAsFixed(2)} USD'),
+                          TextButton(
+                            onPressed: () async {
+                              await cart.addProduct(product);
+                              Get.snackbar('cart'.tr, 'added_to_cart'.trParams({'item': product.name}));
+                            },
+                            child: Text('add_to_cart'.tr),
+                          ),
+                        ],
+                      ),
                       onTap: () => Get.toNamed('${AppRoutes.product}/${product.id}', arguments: product),
                     ),
                   );

@@ -6,8 +6,10 @@ import '../../presentation/bindings/home_binding.dart';
 import '../../presentation/bindings/store_binding.dart';
 import '../../presentation/bindings/trainers_binding.dart';
 import '../../presentation/pages/account_page.dart';
+import '../../presentation/pages/cart_page.dart';
 import '../../presentation/pages/class_details_page.dart';
 import '../../presentation/pages/classes_page.dart';
+import '../../presentation/pages/checkout_page.dart';
 import '../../presentation/pages/gyms_page.dart';
 import '../../presentation/pages/home_page.dart';
 import '../../presentation/pages/inbody_page.dart';
@@ -78,6 +80,8 @@ class AppPages {
       page: () => const StorePage(),
       binding: StoreBinding(),
     ),
+    GetPage(name: AppRoutes.cart, page: () => const CartPage()),
+    GetPage(name: AppRoutes.checkout, page: () => const CheckoutPage()),
     GetPage(
       name: '${AppRoutes.product}/:id',
       page: () => const ProductDetailsPage(),

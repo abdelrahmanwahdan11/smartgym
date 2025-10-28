@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../core/app_initializer.dart';
 import '../../core/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
 import '../widgets/buttons.dart';
@@ -22,6 +23,16 @@ class _LoginPageState extends State<LoginPage> {
   AuthController get _auth => Get.find<AuthController>();
 
   @override
+  void initState() {
+    super.initState();
+    final storedEmail = AppInitializer.prefs.getString('auth.remembered_email');
+    if (storedEmail != null && storedEmail.isNotEmpty) {
+      _remember = true;
+      _emailController.text = storedEmail;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('login'.tr)),
@@ -40,10 +51,10 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(labelText: 'email'.tr),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Required';
+                      return 'required_field'.tr;
                     }
                     if (!value.contains('@')) {
-                      return 'Invalid email';
+                      return 'invalid_email'.tr;
                     }
                     return null;
                   },
@@ -61,10 +72,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Required';
+                      return 'required_field'.tr;
                     }
                     if (value.length < 6) {
-                      return 'Min 6 characters';
+                      return 'min_password'.tr;
                     }
                     return null;
                   },
@@ -74,9 +85,14 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Checkbox(
                       value: _remember,
-                      onChanged: (value) => setState(() => _remember = value ?? false),
+                      onChanged: (value) {
+                        setState(() => _remember = value ?? false);
+                        if (!(value ?? false)) {
+                          AppInitializer.prefs.remove('auth.remembered_email');
+                        }
+                      },
                     ),
-                    Text('Remember me'),
+                    Text('remember_me'.tr),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -113,6 +129,11 @@ class _LoginPageState extends State<LoginPage> {
     if (!_formKey.currentState!.validate()) return;
     final success = await _auth.login(_emailController.text.trim(), _passwordController.text.trim());
     if (success) {
+      if (_remember) {
+        await AppInitializer.prefs.setString('auth.remembered_email', _emailController.text.trim());
+      } else {
+        await AppInitializer.prefs.remove('auth.remembered_email');
+      }
       Get.offAllNamed(AppRoutes.home);
     }
   }

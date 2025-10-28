@@ -12,13 +12,13 @@ class AppInitializer {
 
   static Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
+    await SeedLoader.ensureSeedLoaded();
     await _ensureSeedAccepted();
   }
 
   static Future<void> _ensureSeedAccepted() async {
     final accepted = prefs.getBool('seed.accepted') ?? false;
     if (!accepted) {
-      await SeedLoader.ensureSeedLoaded();
       await prefs.setBool('seed.accepted', true);
     }
   }

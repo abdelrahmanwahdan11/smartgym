@@ -97,7 +97,7 @@ class AccountPage extends StatelessWidget {
             onTap: () => Get.toNamed(AppRoutes.settings),
           ),
           ListTile(
-            title: const Text('QR Pass'),
+            title: Text('qr_pass'.tr),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () => Get.toNamed(AppRoutes.qrPass),
           ),
@@ -105,6 +105,11 @@ class AccountPage extends StatelessWidget {
             title: Text('share_card'.tr),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () => Get.toNamed(AppRoutes.shareCard),
+          ),
+          ListTile(
+            title: Text('cart'.tr),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () => Get.toNamed(AppRoutes.cart),
           ),
           const SizedBox(height: 24),
           FilledButton(
