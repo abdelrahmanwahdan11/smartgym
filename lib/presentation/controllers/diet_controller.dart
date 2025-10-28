@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/grocery_item_model.dart';
 import '../../data/models/macro_plan_model.dart';
 import 'inbody_controller.dart';
 
-class DietController extends GetxController {
+class DietController extends GetxController with GuardedControllerMixin {
   final InBodyController _inBodyController = Get.find();
 
   final Rx<MacroPlanModel> macroPlan =

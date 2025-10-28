@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
-class QrPassController extends GetxController {
+class QrPassController extends GetxController with GuardedControllerMixin {
   final RxString token = ''.obs;
   Timer? _timer;
 

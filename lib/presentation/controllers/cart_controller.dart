@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/cart_item_model.dart';
 import '../../data/models/order_model.dart';
 import '../../data/models/product_model.dart';
 
-class CartController extends GetxController {
+class CartController extends GetxController with GuardedControllerMixin {
   final RxList<CartItemModel> items = <CartItemModel>[].obs;
   final RxList<OrderModel> orders = <OrderModel>[].obs;
 

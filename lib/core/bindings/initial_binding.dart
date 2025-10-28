@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 
+import '../../application/services/action_log.dart';
 import '../../application/services/index_service.dart';
 import '../../application/services/pagination_service.dart';
 import '../../application/services/search_service.dart';
+import '../../core/app_initializer.dart';
 import '../../data/repositories/classes_repository.dart';
 import '../../presentation/controllers/auth_controller.dart';
 import '../../presentation/controllers/cart_controller.dart';
@@ -30,6 +32,9 @@ class InitialBinding extends Bindings {
     Get.lazyPut(() => IndexService());
     Get.lazyPut(() => SearchService());
     Get.lazyPut(() => PaginationService());
+    final actionLog = ActionLogService(AppInitializer.store);
+    actionLog.load();
+    Get.put(actionLog);
     Get.lazyPut(() => ClassesRepository());
     Get.put(AppSearchController(Get.find()));
     Get.put(AppPaginationController(Get.find()));

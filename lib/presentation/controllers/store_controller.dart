@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../application/services/pagination_service.dart';
 import '../../application/services/search_service.dart';
 import '../../data/models/product_model.dart';
 import '../../data/repositories/products_repository.dart';
 
-class StoreController extends GetxController {
+class StoreController extends GetxController with GuardedControllerMixin {
   StoreController(
     this._repository,
     this._searchService,

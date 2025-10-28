@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/injury_adapt_model.dart';
 
-class InjuryController extends GetxController {
+class InjuryController extends GetxController with GuardedControllerMixin {
   final Rx<InjuryAdaptModel> adaptation =
       InjuryAdaptModel(enabled: false, disallowedMovements: const [], alternativesNote: '').obs;
 

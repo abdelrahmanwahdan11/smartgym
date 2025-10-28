@@ -4,8 +4,9 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
-class ShareCardController extends GetxController {
+class ShareCardController extends GetxController with GuardedControllerMixin {
   final GlobalKey repaintKey = GlobalKey();
 
   final RxBool showName = true.obs;

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../core/feature_flags.dart';
 
-class FeatureFlagsController extends GetxController {
+class FeatureFlagsController extends GetxController with GuardedControllerMixin {
   final Rx<FeatureFlags> flags = FeatureFlags.defaults().obs;
 
   @override

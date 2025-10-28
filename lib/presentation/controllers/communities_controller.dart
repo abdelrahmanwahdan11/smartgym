@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/community_post_model.dart';
 
-class CommunitiesController extends GetxController {
+class CommunitiesController extends GetxController with GuardedControllerMixin {
   final RxList<CommunityPostModel> posts = <CommunityPostModel>[].obs;
 
   static const _key = 'communities.posts';

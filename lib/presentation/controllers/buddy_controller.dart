@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/buddy_profile_model.dart';
 
-class BuddyController extends GetxController {
+class BuddyController extends GetxController with GuardedControllerMixin {
   final Rx<BuddyProfileModel?> profile = Rx<BuddyProfileModel?>(null);
   final RxList<BuddyProfileModel> matches = <BuddyProfileModel>[].obs;
 

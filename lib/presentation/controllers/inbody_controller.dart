@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../data/models/inbody_record_model.dart';
 
-class InBodyController extends GetxController {
+class InBodyController extends GetxController with GuardedControllerMixin {
   final RxList<InBodyRecordModel> records = <InBodyRecordModel>[].obs;
 
   double get latestWeight => records.isEmpty ? 0 : records.last.weight;

@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/reminder_model.dart';
 
-class RemindersController extends GetxController {
+class RemindersController extends GetxController with GuardedControllerMixin {
   final RxList<ReminderModel> reminders = <ReminderModel>[].obs;
   final Map<String, Timer> _timers = {};
 

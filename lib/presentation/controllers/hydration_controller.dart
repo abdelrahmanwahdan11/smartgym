@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/hydration_log_model.dart';
 
-class HydrationController extends GetxController {
+class HydrationController extends GetxController with GuardedControllerMixin {
   final RxDouble goalLiters = 2.5.obs;
   final RxInt todayTotal = 0.obs;
   final RxList<HydrationLogModel> logs = <HydrationLogModel>[].obs;

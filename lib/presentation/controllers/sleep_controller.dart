@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/sleep_plan_model.dart';
 
-class SleepController extends GetxController {
+class SleepController extends GetxController with GuardedControllerMixin {
   final Rx<SleepPlanModel> plan = SleepPlanModel(bedtime: '22:30', wakeTime: '06:30').obs;
   final RxBool alarmEnabled = false.obs;
   final RxInt alarmCountdown = 0.obs;

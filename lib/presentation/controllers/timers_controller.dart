@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 enum TimerMode { hiit, emom, amrap, tabata }
 
-class TimersController extends GetxController {
+class TimersController extends GetxController with GuardedControllerMixin {
   final Rx<TimerMode> mode = TimerMode.hiit.obs;
   final RxInt workSeconds = 45.obs;
   final RxInt restSeconds = 15.obs;

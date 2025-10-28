@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/class_model.dart';
@@ -8,7 +9,7 @@ import '../../data/models/program_model.dart';
 import '../../data/repositories/classes_repository.dart';
 import '../controllers/schedule_controller.dart';
 
-class ProgramController extends GetxController {
+class ProgramController extends GetxController with GuardedControllerMixin {
   ProgramController(this._classesRepository);
 
   final ClassesRepository _classesRepository;

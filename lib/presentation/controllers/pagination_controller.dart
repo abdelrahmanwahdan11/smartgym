@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../application/services/pagination_service.dart';
 
-class AppPaginationController extends GetxController {
+class AppPaginationController extends GetxController with GuardedControllerMixin {
   AppPaginationController(this._paginationService);
 
   final PaginationService _paginationService;

@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../application/services/search_service.dart';
 
-class AppSearchController extends GetxController {
+class AppSearchController extends GetxController with GuardedControllerMixin {
   AppSearchController(this._searchService);
 
   final SearchService _searchService;

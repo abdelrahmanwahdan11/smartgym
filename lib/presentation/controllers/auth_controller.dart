@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../models/user_model.dart';
 import '../../data/local_data/seed_loader.dart';
 
-class AuthController extends GetxController {
+class AuthController extends GetxController with GuardedControllerMixin {
   final Rx<UserModel?> currentUser = Rx<UserModel?>(null);
   final RxBool isLoading = false.obs;
   final RxString error = ''.obs;

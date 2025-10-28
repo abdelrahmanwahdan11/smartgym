@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/challenge_model.dart';
 
-class ChallengesController extends GetxController {
+class ChallengesController extends GetxController with GuardedControllerMixin {
   final RxList<ChallengeModel> challenges = <ChallengeModel>[].obs;
 
   static const _key = 'challenges.joined';

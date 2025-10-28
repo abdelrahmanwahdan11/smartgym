@@ -7,8 +7,9 @@ import '../../data/models/class_model.dart';
 import '../../data/repositories/classes_repository.dart';
 import '../../data/repositories/gyms_repository.dart';
 import '../../data/repositories/trainers_repository.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
-class ClassesController extends GetxController {
+class ClassesController extends GetxController with GuardedControllerMixin {
   ClassesController(
     this._repository,
     this._searchService,

@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 import '../../data/models/steps_day_model.dart';
 
-class StepsController extends GetxController {
+class StepsController extends GetxController with GuardedControllerMixin {
   final RxList<StepsDayModel> history = <StepsDayModel>[].obs;
   final RxInt target = 8000.obs;
   final RxInt todaySteps = 0.obs;

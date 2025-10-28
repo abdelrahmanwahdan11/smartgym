@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 
-class LocaleController extends GetxController {
+class LocaleController extends GetxController with GuardedControllerMixin {
   final Rx<Locale> locale = const Locale('en', 'US').obs;
 
   @override

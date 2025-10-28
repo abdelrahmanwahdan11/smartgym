@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../core/app_initializer.dart';
 
-class ThemeController extends GetxController {
+class ThemeController extends GetxController with GuardedControllerMixin {
   final Rx<Color> primaryColor = const Color(0xFF00B3A4).obs;
   final RxBool isDarkMode = false.obs;
 

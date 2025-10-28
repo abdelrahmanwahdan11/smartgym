@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
+import 'mixins/guarded_controller_mixin.dart';
 
 import '../../application/services/pagination_service.dart';
 import '../../application/services/search_service.dart';
 import '../../data/models/trainer_model.dart';
 import '../../data/repositories/trainers_repository.dart';
 
-class TrainersController extends GetxController {
+class TrainersController extends GetxController with GuardedControllerMixin {
   TrainersController(
     this._repository,
     this._searchService,
