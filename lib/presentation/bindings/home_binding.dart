@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../application/services/index_service.dart';
 import '../../application/services/pagination_service.dart';
 import '../../application/services/search_service.dart';
 import '../../data/repositories/classes_repository.dart';
@@ -34,6 +35,9 @@ class HomeBinding extends Bindings {
             Get.find<ClassesRepository>(),
             Get.find<SearchService>(),
             Get.find<PaginationService>(),
+            Get.find<GymsRepository>(),
+            Get.find<TrainersRepository>(),
+            Get.find<IndexService>(),
           ));
     }
     if (!Get.isRegistered<GymsController>()) {

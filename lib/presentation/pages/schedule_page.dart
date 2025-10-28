@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../core/routes/app_routes.dart';
+import '../controllers/program_controller.dart';
 import '../controllers/schedule_controller.dart';
 import '../widgets/tag_pill.dart';
 import '../widgets/states.dart';
@@ -10,6 +12,7 @@ class SchedulePage extends GetView<ScheduleController> {
 
   @override
   Widget build(BuildContext context) {
+    final program = Get.find<ProgramController>();
     return Scaffold(
       appBar: AppBar(
         title: Text('schedule'.tr),
@@ -18,6 +21,11 @@ class SchedulePage extends GetView<ScheduleController> {
             icon: const Icon(Icons.delete_sweep),
             onPressed: () async => controller.clearAll(),
             tooltip: 'clear_all'.tr,
+          ),
+          IconButton(
+            icon: const Icon(Icons.view_week),
+            onPressed: () => Get.toNamed(AppRoutes.programDesigner),
+            tooltip: 'program_designer'.tr,
           ),
         ],
       ),
@@ -41,6 +49,8 @@ class SchedulePage extends GetView<ScheduleController> {
               final timeText = startTime != null
                   ? '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}'
                   : '';
+              final hasConflict = program.conflicts
+                  .any((conflict) => conflict.startsWith(controller.classTitle(booking.classId)));
               return Card(
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(16),
@@ -59,6 +69,12 @@ class SchedulePage extends GetView<ScheduleController> {
                           if (classModel != null && classModel.intensity.isNotEmpty)
                             TagPill(label: classModel.intensity),
                           TagPill(label: '${classModel?.durationMin ?? 0} min'),
+                          if (hasConflict)
+                            Chip(
+                              label: Text('conflicts'.tr),
+                              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                              labelStyle: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
+                            ),
                         ],
                       ),
                     ],

@@ -8,28 +8,43 @@ import '../../presentation/bindings/trainers_binding.dart';
 import '../../presentation/bindings/timers_binding.dart';
 import '../../presentation/pages/account_page.dart';
 import '../../presentation/pages/cart_page.dart';
+import '../../presentation/pages/buddy/buddy_match_page.dart';
 import '../../presentation/pages/class_details_page.dart';
 import '../../presentation/pages/classes_page.dart';
 import '../../presentation/pages/checkout_page.dart';
+import '../../presentation/pages/challenges/challenge_details_page.dart';
+import '../../presentation/pages/challenges/challenges_page.dart';
+import '../../presentation/pages/community/communities_page.dart';
+import '../../presentation/pages/community/community_thread_page.dart';
 import '../../presentation/pages/gyms_page.dart';
 import '../../presentation/pages/home_page.dart';
 import '../../presentation/pages/inbody_page.dart';
+import '../../presentation/pages/injury/injury_adapt_page.dart';
 import '../../presentation/pages/login_page.dart';
+import '../../presentation/pages/diet/diet_planner_page.dart';
+import '../../presentation/pages/diet/grocery_list_page.dart';
 import '../../presentation/pages/notifications_page.dart';
 import '../../presentation/pages/onboarding_page.dart';
 import '../../presentation/pages/product_details_page.dart';
+import '../../presentation/pages/program/program_designer_page.dart';
 import '../../presentation/pages/progress_page.dart';
 import '../../presentation/pages/qr_pass_page.dart';
 import '../../presentation/pages/reminders_page.dart';
+import '../../presentation/pages/hydration/hydration_page.dart';
 import '../../presentation/pages/settings_page.dart';
 import '../../presentation/pages/share_card_page.dart';
 import '../../presentation/pages/signup_page.dart';
 import '../../presentation/pages/splash_page.dart';
 import '../../presentation/pages/store_page.dart';
+import '../../presentation/pages/steps/steps_page.dart';
+import '../../presentation/pages/sleep/sleep_coach_page.dart';
 import '../../presentation/pages/trainer_details_page.dart';
 import '../../presentation/pages/trainers_page.dart';
 import '../../presentation/pages/wallet_page.dart';
 import '../../presentation/pages/timers_page.dart';
+import '../../presentation/pages/physio/physio_page.dart';
+import '../../presentation/pages/stories/stories_page.dart';
+import '../../presentation/pages/live/live_mini_page.dart';
 import '../routes/app_routes.dart';
 import '../../presentation/pages/gym_details_page.dart';
 import '../../presentation/pages/schedule_page.dart';
@@ -100,5 +115,20 @@ class AppPages {
       page: () => const TimersPage(),
       binding: TimersBinding(),
     ),
+    GetPage(name: AppRoutes.programDesigner, page: () => const ProgramDesignerPage()),
+    GetPage(name: AppRoutes.challenges, page: () => const ChallengesPage()),
+    GetPage(name: '${AppRoutes.challengeDetails}/:id', page: () => const ChallengeDetailsPage()),
+    GetPage(name: AppRoutes.communities, page: () => const CommunitiesPage()),
+    GetPage(name: AppRoutes.communityThread, page: () => const CommunityThreadPage()),
+    GetPage(name: AppRoutes.diet, page: () => const DietPlannerPage()),
+    GetPage(name: AppRoutes.grocery, page: () => const GroceryListPage()),
+    GetPage(name: AppRoutes.hydration, page: () => const HydrationPage()),
+    GetPage(name: AppRoutes.steps, page: () => const StepsPage()),
+    GetPage(name: AppRoutes.sleep, page: () => const SleepCoachPage()),
+    GetPage(name: AppRoutes.injury, page: () => const InjuryAdaptPage()),
+    GetPage(name: AppRoutes.physio, page: () => const PhysioPage()),
+    GetPage(name: AppRoutes.stories, page: () => const StoriesPage()),
+    GetPage(name: AppRoutes.liveMini, page: () => const LiveMiniPage()),
+    GetPage(name: AppRoutes.buddy, page: () => const BuddyMatchPage()),
   ];
 }

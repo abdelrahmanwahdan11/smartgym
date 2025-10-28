@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../core/routes/app_routes.dart';
 import '../controllers/classes_controller.dart';
+import '../controllers/injury_controller.dart';
 import '../widgets/paginator_list.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/states.dart';
@@ -15,6 +16,7 @@ class ClassesPage extends GetView<ClassesController> {
 
   @override
   Widget build(BuildContext context) {
+    final injury = Get.find<InjuryController>();
     final body = Column(
       children: [
         Padding(
@@ -38,6 +40,10 @@ class ClassesPage extends GetView<ClassesController> {
               hasMore: controller.hasMore.value,
               itemBuilder: (context, index) {
                 final item = controller.displayed[index];
+                final caution = injury.adaptation.value.enabled &&
+                    injury.adaptation.value.disallowedMovements.any(
+                      (movement) => item.description.toLowerCase().contains(movement.toLowerCase().split(' ').first),
+                    );
                 return ListTile(
                   title: Text(item.title),
                   subtitle: Wrap(
@@ -46,6 +52,12 @@ class ClassesPage extends GetView<ClassesController> {
                       TagPill(label: item.type),
                       TagPill(label: item.level),
                       TagPill(label: '${item.durationMin} min'),
+                      if (caution)
+                        Chip(
+                          label: Text('injury_mode'.tr),
+                          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
+                        ),
                     ],
                   ),
                   trailing: Column(

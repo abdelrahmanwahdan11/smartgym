@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
 
 import '../../core/routes/app_routes.dart';
+import '../controllers/challenges_controller.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/tag_pill.dart';
 import '../widgets/rating_stars.dart';
@@ -12,6 +13,7 @@ class HomeDashboardPage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final challenges = Get.find<ChallengesController>();
     return RefreshIndicator(
       onRefresh: controller.loadHighlights,
       child: CustomScrollView(
@@ -56,6 +58,31 @@ class HomeDashboardPage extends GetView<HomeController> {
                           },
                         )),
                   ),
+                  const SizedBox(height: 24),
+                  Obx(() {
+                    final active = challenges.challenges.firstWhereOrNull((element) => element.joined);
+                    if (active == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('challenge'.tr, style: Theme.of(context).textTheme.labelLarge),
+                          const SizedBox(height: 8),
+                          Text(active.title, style: Theme.of(context).textTheme.titleMedium),
+                          const SizedBox(height: 4),
+                          LinearProgressIndicator(value: active.progress),
+                        ],
+                      ),
+                    );
+                  }),
                   const SizedBox(height: 24),
                   Text('promotions'.tr, style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 12),
@@ -133,6 +160,26 @@ class HomeDashboardPage extends GetView<HomeController> {
                         icon: IconlyLight.time_circle,
                         label: 'timers'.tr,
                         onTap: () => Get.toNamed(AppRoutes.timers),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.calendar,
+                        label: 'program_designer'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.programDesigner),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.heart,
+                        label: 'diet_planner'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.diet),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.activity,
+                        label: 'hydration'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.hydration),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.chart,
+                        label: 'steps'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.steps),
                       ),
                     ],
                   ),

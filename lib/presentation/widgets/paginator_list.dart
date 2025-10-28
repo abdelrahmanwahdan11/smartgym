@@ -9,6 +9,7 @@ class PaginatorListView extends StatefulWidget {
     this.padding,
     this.hasMore = true,
     this.physics,
+    this.threshold,
   });
 
   final int itemCount;
@@ -17,6 +18,9 @@ class PaginatorListView extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final bool hasMore;
   final ScrollPhysics? physics;
+  final double? threshold;
+
+  static const double defaultThreshold = 0.85;
 
   @override
   State<PaginatorListView> createState() => _PaginatorListViewState();
@@ -34,8 +38,9 @@ class _PaginatorListViewState extends State<PaginatorListView> {
 
   void _onScroll() {
     if (!widget.hasMore) return;
+    final trigger = widget.threshold ?? defaultThreshold;
     if (_controller.position.pixels >=
-        _controller.position.maxScrollExtent * 0.85) {
+        _controller.position.maxScrollExtent * trigger) {
       widget.onEndReached();
     }
   }
@@ -49,12 +54,21 @@ class _PaginatorListViewState extends State<PaginatorListView> {
 
   @override
   Widget build(BuildContext context) {
+    final total = widget.hasMore ? widget.itemCount + 1 : widget.itemCount;
     return ListView.builder(
       controller: _controller,
       padding: widget.padding,
       physics: widget.physics,
-      itemCount: widget.itemCount,
-      itemBuilder: widget.itemBuilder,
+      itemCount: total,
+      itemBuilder: (context, index) {
+        if (index >= widget.itemCount) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Center(child: LinearProgressIndicator()),
+          );
+        }
+        return widget.itemBuilder(context, index);
+      },
     );
   }
 }

@@ -12,6 +12,9 @@ class ShareCardController extends GetxController {
   final RxBool showStats = true.obs;
   final RxBool showBadges = true.obs;
   final RxBool showGym = true.obs;
+  final RxBool showChallenges = true.obs;
+  final RxString template = 'classic'.obs;
+  final RxDouble textScale = 1.0.obs;
 
   Future<ByteData?> exportPng() async {
     final boundary = repaintKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
@@ -28,4 +31,10 @@ class ShareCardController extends GetxController {
   void toggleBadges(bool value) => showBadges.value = value;
 
   void toggleGym(bool value) => showGym.value = value;
+
+  void toggleChallenges(bool value) => showChallenges.value = value;
+
+  void setTemplate(String value) => template.value = value;
+
+  void setTextScale(double value) => textScale.value = value;
 }

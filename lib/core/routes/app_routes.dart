@@ -25,4 +25,19 @@ class AppRoutes {
   static const notifications = '/notifications';
   static const account = '/account';
   static const timers = '/timers';
+  static const programDesigner = '/program-designer';
+  static const challenges = '/challenges';
+  static const challengeDetails = '/challenge';
+  static const communities = '/communities';
+  static const communityThread = '/community/thread';
+  static const diet = '/diet';
+  static const grocery = '/grocery';
+  static const hydration = '/hydration';
+  static const steps = '/steps';
+  static const sleep = '/sleep';
+  static const injury = '/injury';
+  static const physio = '/physio';
+  static const stories = '/stories';
+  static const liveMini = '/live-mini';
+  static const buddy = '/buddy';
 }
