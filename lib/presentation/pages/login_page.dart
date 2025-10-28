@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../core/app_initializer.dart';
 import '../../core/routes/app_routes.dart';
-import '../../core/utils/app_validators.dart';
+import '../../core/validation/app_validators.dart';
 import '../controllers/auth_controller.dart';
 import '../widgets/buttons.dart';
 

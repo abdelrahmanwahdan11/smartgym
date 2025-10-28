@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/routes/app_routes.dart';
-import '../../core/utils/app_validators.dart';
+import '../../core/validation/app_validators.dart';
 import '../controllers/auth_controller.dart';
 import '../models/user_model.dart';
 import '../widgets/buttons.dart';
