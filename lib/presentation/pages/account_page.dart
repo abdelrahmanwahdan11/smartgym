@@ -30,7 +30,7 @@ class AccountPage extends StatelessWidget {
             final user = auth.currentUser.value;
             return ListTile(
               leading: const CircleAvatar(child: Icon(Icons.person)),
-              title: Text(user?.name ?? 'Guest'),
+              title: Text(user?.name ?? 'guest'.tr),
               subtitle: Text(user?.email ?? 'guest@example.com'),
             );
           }),
@@ -38,9 +38,9 @@ class AccountPage extends StatelessWidget {
           Text('language'.tr, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           SegmentedButton<Locale>(
-            segments: const [
-              ButtonSegment(value: Locale('en', 'US'), label: Text('English')),
-              ButtonSegment(value: Locale('ar', 'AR'), label: Text('العربية')),
+            segments: [
+              ButtonSegment(value: const Locale('en', 'US'), label: Text('english'.tr)),
+              ButtonSegment(value: const Locale('ar', 'AR'), label: Text('arabic'.tr)),
             ],
             selected: {locale.locale.value},
             onSelectionChanged: (value) => locale.updateLocale(value.first),
@@ -92,7 +92,7 @@ class AccountPage extends StatelessWidget {
           const SizedBox(height: 24),
           ListTile(
             title: Text('settings'.tr),
-            subtitle: const Text('Privacy, export data, developer mode'),
+            subtitle: Text('developer_mocks_desc'.tr),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
             onTap: () => Get.toNamed(AppRoutes.settings),
           ),

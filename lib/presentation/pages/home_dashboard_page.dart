@@ -99,12 +99,41 @@ class HomeDashboardPage extends GetView<HomeController> {
                     crossAxisSpacing: 12,
                     childAspectRatio: 1,
                     children: [
-                      _QuickLink(icon: IconlyLight.discovery, label: 'classes'.tr, onTap: () => Get.toNamed(AppRoutes.classes)),
-                      _QuickLink(icon: IconlyLight.work, label: 'gyms'.tr, onTap: () => Get.toNamed(AppRoutes.gyms)),
-                      _QuickLink(icon: IconlyLight.profile, label: 'trainers'.tr, onTap: () => Get.toNamed(AppRoutes.trainers)),
-                      _QuickLink(icon: IconlyLight.calendar, label: 'schedule'.tr, onTap: () => Get.toNamed(AppRoutes.schedule)),
-                      _QuickLink(icon: IconlyLight.buy, label: 'store'.tr, onTap: () => Get.toNamed(AppRoutes.store)),
-                      _QuickLink(icon: IconlyLight.shield_done, label: 'share_card'.tr, onTap: () => Get.toNamed(AppRoutes.shareCard)),
+                      _QuickLink(
+                        icon: IconlyLight.discovery,
+                        label: 'classes'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.classes),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.work,
+                        label: 'gyms'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.gyms),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.profile,
+                        label: 'trainers'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.trainers),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.calendar,
+                        label: 'schedule'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.schedule),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.buy,
+                        label: 'store'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.store),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.shield_done,
+                        label: 'share_card'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.shareCard),
+                      ),
+                      _QuickLink(
+                        icon: IconlyLight.time_circle,
+                        label: 'timers'.tr,
+                        onTap: () => Get.toNamed(AppRoutes.timers),
+                      ),
                     ],
                   ),
                 ],

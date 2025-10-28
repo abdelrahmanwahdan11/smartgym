@@ -15,8 +15,8 @@ class CartPage extends GetView<CartController> {
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever),
-            onPressed: controller.clearCart,
-            tooltip: 'clear_all'.tr,
+            onPressed: controller.clear,
+            tooltip: 'clear_cart'.tr,
           ),
         ],
       ),
@@ -45,7 +45,7 @@ class CartPage extends GetView<CartController> {
                               Text(item.name, style: Theme.of(context).textTheme.titleMedium),
                               IconButton(
                                 icon: const Icon(Icons.close),
-                                onPressed: () => controller.removeProduct(item.productId),
+                                onPressed: () => controller.removeItem(item.id),
                               ),
                             ],
                           ),
@@ -56,8 +56,8 @@ class CartPage extends GetView<CartController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               _QuantityControl(
-                                value: item.quantity,
-                                onChanged: (value) => controller.updateQuantity(item.productId, value),
+                                value: item.qty,
+                                onChanged: (value) => controller.updateQuantity(item.id, value),
                               ),
                               Text('${item.subtotal.toStringAsFixed(2)} USD',
                                   style: Theme.of(context).textTheme.titleMedium),
@@ -78,7 +78,14 @@ class CartPage extends GetView<CartController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('total'.tr, style: Theme.of(context).textTheme.titleMedium),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('total'.tr, style: Theme.of(context).textTheme.titleMedium),
+                          Text('${controller.itemCount} ${'items'.tr}',
+                              style: Theme.of(context).textTheme.labelMedium),
+                        ],
+                      ),
                       Text('${controller.total.toStringAsFixed(2)} USD',
                           style: Theme.of(context).textTheme.titleLarge),
                     ],
@@ -86,7 +93,7 @@ class CartPage extends GetView<CartController> {
                   const SizedBox(height: 16),
                   FilledButton(
                     onPressed: () => Get.toNamed(AppRoutes.checkout),
-                    child: Text('proceed_to_checkout'.tr),
+                    child: Text('proceed'.tr),
                   ),
                 ],
               ),

@@ -5,6 +5,7 @@ import '../../presentation/bindings/gyms_binding.dart';
 import '../../presentation/bindings/home_binding.dart';
 import '../../presentation/bindings/store_binding.dart';
 import '../../presentation/bindings/trainers_binding.dart';
+import '../../presentation/bindings/timers_binding.dart';
 import '../../presentation/pages/account_page.dart';
 import '../../presentation/pages/cart_page.dart';
 import '../../presentation/pages/class_details_page.dart';
@@ -28,6 +29,7 @@ import '../../presentation/pages/store_page.dart';
 import '../../presentation/pages/trainer_details_page.dart';
 import '../../presentation/pages/trainers_page.dart';
 import '../../presentation/pages/wallet_page.dart';
+import '../../presentation/pages/timers_page.dart';
 import '../routes/app_routes.dart';
 import '../../presentation/pages/gym_details_page.dart';
 import '../../presentation/pages/schedule_page.dart';
@@ -93,5 +95,10 @@ class AppPages {
     GetPage(name: AppRoutes.settings, page: () => const SettingsPage()),
     GetPage(name: AppRoutes.notifications, page: () => const NotificationsPage()),
     GetPage(name: AppRoutes.account, page: () => const AccountPage()),
+    GetPage(
+      name: AppRoutes.timers,
+      page: () => const TimersPage(),
+      binding: TimersBinding(),
+    ),
   ];
 }

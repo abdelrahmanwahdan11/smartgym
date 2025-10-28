@@ -24,4 +24,5 @@ class AppRoutes {
   static const settings = '/settings';
   static const notifications = '/notifications';
   static const account = '/account';
+  static const timers = '/timers';
 }

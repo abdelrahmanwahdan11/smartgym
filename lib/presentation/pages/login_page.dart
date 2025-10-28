@@ -25,9 +25,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    final storedEmail = AppInitializer.prefs.getString('auth.remembered_email');
-    if (storedEmail != null && storedEmail.isNotEmpty) {
-      _remember = true;
+    final remember = AppInitializer.prefs.getBool('auth.remember') ?? false;
+    final storedEmail = AppInitializer.prefs.getString('auth.email');
+    _remember = remember;
+    if (remember && storedEmail != null && storedEmail.isNotEmpty) {
       _emailController.text = storedEmail;
     }
   }
@@ -51,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(labelText: 'email'.tr),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'required_field'.tr;
+                      return 'required'.tr;
                     }
                     if (!value.contains('@')) {
                       return 'invalid_email'.tr;
@@ -72,10 +73,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'required_field'.tr;
+                      return 'required'.tr;
                     }
                     if (value.length < 6) {
-                      return 'min_password'.tr;
+                      return 'min_6_chars'.tr;
                     }
                     return null;
                   },
@@ -85,10 +86,14 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Checkbox(
                       value: _remember,
-                      onChanged: (value) {
-                        setState(() => _remember = value ?? false);
-                        if (!(value ?? false)) {
-                          AppInitializer.prefs.remove('auth.remembered_email');
+                      onChanged: (value) async {
+                        final newValue = value ?? false;
+                        setState(() => _remember = newValue);
+                        await AppInitializer.prefs.setBool('auth.remember', newValue);
+                        if (!newValue) {
+                          await AppInitializer.prefs.remove('auth.email');
+                        } else {
+                          await AppInitializer.prefs.setString('auth.email', _emailController.text.trim());
                         }
                       },
                     ),
@@ -129,10 +134,11 @@ class _LoginPageState extends State<LoginPage> {
     if (!_formKey.currentState!.validate()) return;
     final success = await _auth.login(_emailController.text.trim(), _passwordController.text.trim());
     if (success) {
+      await AppInitializer.prefs.setBool('auth.remember', _remember);
       if (_remember) {
-        await AppInitializer.prefs.setString('auth.remembered_email', _emailController.text.trim());
+        await AppInitializer.prefs.setString('auth.email', _emailController.text.trim());
       } else {
-        await AppInitializer.prefs.remove('auth.remembered_email');
+        await AppInitializer.prefs.remove('auth.email');
       }
       Get.offAllNamed(AppRoutes.home);
     }

@@ -37,15 +37,15 @@ class _SignupPageState extends State<SignupPage> {
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Name'),
-                  validator: (value) => value == null || value.isEmpty ? 'Required' : null,
+                  validator: (value) => value == null || value.isEmpty ? 'required'.tr : null,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(labelText: 'email'.tr),
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Required';
-                    if (!value.contains('@')) return 'Invalid email';
+                    if (value == null || value.isEmpty) return 'required'.tr;
+                    if (!value.contains('@')) return 'invalid_email'.tr;
                     return null;
                   },
                 ),
@@ -61,8 +61,8 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Required';
-                    if (value.length < 6) return 'Min 6 characters';
+                    if (value == null || value.isEmpty) return 'required'.tr;
+                    if (value.length < 6) return 'min_6_chars'.tr;
                     return null;
                   },
                 ),

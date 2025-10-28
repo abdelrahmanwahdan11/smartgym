@@ -28,7 +28,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             children: [
               FilledButton(
                 onPressed: _processing ? null : details.onStepContinue,
-                child: Text(_currentStep == 2 ? 'confirm_order'.tr : 'next'.tr),
+                child: Text(_currentStep == 2 ? 'confirm'.tr : 'next'.tr),
               ),
               const SizedBox(width: 12),
               if (_currentStep > 0)
@@ -63,7 +63,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   children: _cart.items
                       .map((item) => ListTile(
                             contentPadding: EdgeInsets.zero,
-                            title: Text('${item.quantity} × ${item.name}'),
+                            title: Text('${item.qty} × ${item.name}'),
                             trailing: Text('${item.subtotal.toStringAsFixed(2)} USD'),
                           ))
                       .toList(),
@@ -90,6 +90,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('total'.tr, style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(height: 4),
+                    Text('${_cart.itemCount} ${'items'.tr}',
+                        style: Theme.of(context).textTheme.labelMedium),
                     const SizedBox(height: 8),
                     Text('${_cart.total.toStringAsFixed(2)} USD',
                         style: Theme.of(context).textTheme.headlineSmall),
@@ -114,11 +117,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
     setState(() => _processing = false);
     if (!mounted) return;
     if (success) {
-      Get.snackbar('order_success'.tr, 'order_success_body'.tr);
+      Get.snackbar('success'.tr, 'checkout'.tr);
       Get.back();
       Get.back();
-    } else {
-      Get.snackbar('order_failed'.tr, 'order_failed_body'.tr);
     }
   }
 

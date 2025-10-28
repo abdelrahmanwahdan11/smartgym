@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../core/app_initializer.dart';
@@ -53,13 +54,13 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.file_download),
             title: Text('export_data'.tr),
-            subtitle: Text('export_data_subtitle'.tr),
-            onTap: () => _exportData(context, theme, locale, cart, schedule, reminders, auth),
+            subtitle: Text('export_data_desc'.tr),
+            onTap: () => _exportData(context),
           ),
           ListTile(
             leading: const Icon(Icons.delete_outline),
             title: Text('delete_data'.tr),
-            subtitle: Text('delete_data_subtitle'.tr),
+            subtitle: Text('delete_data_desc'.tr),
             onTap: () => _confirmClear(context, theme, locale, cart, schedule, reminders, auth),
           ),
         ],
@@ -93,26 +94,29 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  Future<void> _exportData(
-    BuildContext context,
-    ThemeController theme,
-    LocaleController locale,
-    CartController cart,
-    ScheduleController schedule,
-    RemindersController reminders,
-    AuthController auth,
-  ) async {
+  Future<void> _exportData(BuildContext context) async {
+    Map<String, dynamic>? _decodeMap(String? source) {
+      if (source == null || source.isEmpty) return null;
+      return jsonDecode(source) as Map<String, dynamic>;
+    }
+
+    List<dynamic> _decodeList(String? source) {
+      if (source == null || source.isEmpty) return [];
+      return jsonDecode(source) as List<dynamic>;
+    }
+
+    final prefs = AppInitializer.prefs;
     final payload = {
-      'user': auth.currentUser.value?.toMap(),
-      'theme': {
-        'primary': theme.primaryColor.value.value,
-        'darkMode': theme.isDarkMode.value,
-      },
-      'locale': locale.locale.value.toLanguageTag(),
-      'cart': cart.items.map((e) => e.toMap()).toList(),
-      'orders': cart.orders.map((e) => e.toMap()).toList(),
-      'bookings': schedule.bookings.map((e) => e.toMap()).toList(),
-      'reminders': reminders.reminders.map((e) => e.toMap()).toList(),
+      'theme.primary_color': prefs.getInt('theme.primary_color'),
+      'theme.dark_mode': prefs.getBool('theme.dark_mode'),
+      'locale.current': prefs.getString('locale.current'),
+      'auth.user': _decodeMap(prefs.getString('auth.user')),
+      'auth.remember': prefs.getBool('auth.remember'),
+      'auth.email': prefs.getString('auth.email'),
+      'cart.items': _decodeList(prefs.getString('cart.items')),
+      'cart.orders': _decodeList(prefs.getString('cart.orders')),
+      'schedule.bookings': _decodeList(prefs.getString('schedule.bookings')),
+      'reminders.config': _decodeList(prefs.getString('reminders.config')),
     };
     final json = const JsonEncoder.withIndent('  ').convert(payload);
     showDialog(
@@ -125,7 +129,17 @@ class SettingsPage extends StatelessWidget {
             child: SelectableText(json, style: const TextStyle(fontFamily: 'monospace')),
           ),
         ),
-        actions: [TextButton(onPressed: () => Get.back(), child: Text('close'.tr))],
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await Clipboard.setData(ClipboardData(text: json));
+              Get.back();
+              Get.snackbar('export_data'.tr, 'copied'.tr);
+            },
+            child: Text('copy'.tr),
+          ),
+          TextButton(onPressed: () => Get.back(), child: Text('close'.tr)),
+        ],
       ),
     );
   }
@@ -152,17 +166,37 @@ class SettingsPage extends StatelessWidget {
     );
     if (confirm != true) return;
 
-    await AppInitializer.prefs.clear();
-    await SeedLoader.ensureSeedLoaded();
-    await AppInitializer.prefs.setBool('seed.accepted', true);
-    await cart.clearCart();
+    await cart.clear();
     await cart.clearOrders();
     await schedule.clearAll();
     reminders.clearAll();
-    await theme.reset();
-    await locale.reset();
     await auth.logout();
-    Get.offAllNamed(AppRoutes.login);
+
+    final prefs = AppInitializer.prefs;
+    const keys = [
+      'theme.primary_color',
+      'theme.dark_mode',
+      'locale.current',
+      'auth.user',
+      'auth.remember',
+      'auth.email',
+      'cart.items',
+      'cart.orders',
+      'schedule.bookings',
+      'reminders.config',
+      'seed.accepted',
+    ];
+    for (final key in keys) {
+      await prefs.remove(key);
+    }
+
+    theme.primaryColor.value = const Color(0xFF00B3A4);
+    theme.isDarkMode.value = false;
+    locale.locale.value = const Locale('en', 'US');
+    Get.updateLocale(locale.locale.value);
+
+    await SeedLoader.ensureSeedLoaded();
+    Get.offAllNamed(AppRoutes.splash);
     Get.snackbar('settings'.tr, 'data_cleared'.tr);
   }
 }

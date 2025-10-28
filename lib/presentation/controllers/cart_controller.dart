@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:get/get.dart';
 
@@ -37,42 +36,45 @@ class CartController extends GetxController {
     orders.assignAll(list);
   }
 
-  Future<void> addProduct(ProductModel product) async {
+  Future<void> addItem(ProductModel product) async {
     final index = items.indexWhere((element) => element.productId == product.id);
     if (index >= 0) {
-      items[index] = items[index].copyWith(quantity: items[index].quantity + 1);
+      items[index] = items[index].copyWith(qty: items[index].qty + 1);
     } else {
       items.add(CartItemModel(
+        id: product.id,
         productId: product.id,
         name: product.name,
         price: product.price,
-        quantity: 1,
+        qty: 1,
         tags: product.tags,
       ));
     }
     await _persistCart();
   }
 
-  Future<void> removeProduct(String productId) async {
-    items.removeWhere((element) => element.productId == productId);
+  Future<void> removeItem(String id) async {
+    items.removeWhere((element) => element.id == id);
     await _persistCart();
   }
 
-  Future<void> updateQuantity(String productId, int quantity) async {
-    final index = items.indexWhere((element) => element.productId == productId);
+  Future<void> updateQuantity(String id, int qty) async {
+    final index = items.indexWhere((element) => element.id == id);
     if (index == -1) return;
-    if (quantity <= 0) {
+    if (qty <= 0) {
       items.removeAt(index);
     } else {
-      items[index] = items[index].copyWith(quantity: quantity);
+      items[index] = items[index].copyWith(qty: qty);
     }
     await _persistCart();
   }
 
-  Future<void> clearCart() async {
+  Future<void> clear() async {
     items.clear();
     await _persistCart();
   }
+
+  Future<void> clearCart() => clear();
 
   Future<void> clearOrders() async {
     orders.clear();
@@ -82,25 +84,22 @@ class CartController extends GetxController {
   Future<bool> checkout({String note = ''}) async {
     if (items.isEmpty) return false;
     await Future<void>.delayed(const Duration(milliseconds: 600));
-    final success = Random().nextBool();
     final order = OrderModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       total: total,
-      status: success ? 'success' : 'failed',
+      status: 'success',
       createdAt: DateTime.now(),
       note: note,
     );
     orders.insert(0, order);
     await _persistOrders();
-    if (success) {
-      await clearCart();
-    }
-    return success;
+    await clear();
+    return true;
   }
 
   double get total => items.fold(0, (previousValue, element) => previousValue + element.subtotal);
 
-  int get itemCount => items.fold(0, (previousValue, element) => previousValue + element.quantity);
+  int get itemCount => items.fold(0, (previousValue, element) => previousValue + element.qty);
 
   Future<void> _persistCart() async {
     final encoded = jsonEncode(items.map((e) => e.toMap()).toList());

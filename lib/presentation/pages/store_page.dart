@@ -63,14 +63,18 @@ class StorePage extends GetView<StoreController> {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: categories
-                    .map((e) => Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: ChoiceChip(
-                            label: Text(e),
-                            selected: controller.category.value == (e == 'All' ? '' : e),
-                            onSelected: (_) => controller.selectCategory(e == 'All' ? '' : e),
-                          ),
-                        ))
+                    .map((e) {
+                      final isAll = e == 'All';
+                      final value = isAll ? '' : e;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: ChoiceChip(
+                          label: Text(isAll ? 'all'.tr : e),
+                          selected: controller.category.value == value,
+                          onSelected: (_) => controller.selectCategory(value),
+                        ),
+                      );
+                    })
                     .toList(),
               );
             }),
@@ -102,14 +106,18 @@ class StorePage extends GetView<StoreController> {
                           Text('${product.price.toStringAsFixed(2)} USD'),
                           TextButton(
                             onPressed: () async {
-                              await cart.addProduct(product);
-                              Get.snackbar('cart'.tr, 'added_to_cart'.trParams({'item': product.name}));
+                              await cart.addItem(product);
+                              Get.snackbar('added'.tr, 'added_to_cart'.tr);
                             },
                             child: Text('add_to_cart'.tr),
                           ),
                         ],
                       ),
                       onTap: () => Get.toNamed('${AppRoutes.product}/${product.id}', arguments: product),
+                      onLongPress: () async {
+                        await cart.addItem(product);
+                        Get.snackbar('added'.tr, 'added_to_cart'.tr);
+                      },
                     ),
                   );
                 },
