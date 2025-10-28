@@ -1,0 +1,28 @@
+name: smartgym
+description: Gym Passport offline-first mock application.
+publish_to: 'none'
+version: 1.0.0+1
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  google_fonts: ^6.2.1
+  shared_preferences: ^2.2.3
+  flutter_animate: 4.5.2
+  iconly: ^1.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/onboarding/
+    - assets/images/gyms/
+    - assets/images/products/
+    - assets/data/
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0

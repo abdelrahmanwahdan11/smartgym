@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "tr_01",
+      "name": "Omar D.",
+      "specialties": ["Yoga", "Mobility"],
+      "certs": ["RYT200"],
+      "rating": 4.7,
+      "bio": "Yoga coach focusing on mindful movement.",
+      "rates": {"personal_session": 30, "package_8": 200}
+    },
+    {
+      "id": "tr_02",
+      "name": "Lina K.",
+      "specialties": ["HIIT", "Functional", "Mobility"],
+      "certs": ["ACE", "CPR"],
+      "rating": 4.8,
+      "bio": "Functional training coach with 6+ years experience.",
+      "rates": {"personal_session": 25, "package_8": 180}
+    }
+  ]
+}

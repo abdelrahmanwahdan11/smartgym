@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "id": "plan_monthly",
+      "name": "Monthly Unlimited",
+      "period": "Monthly",
+      "price": 120.0,
+      "limits": "Unlimited classes",
+      "perks": ["Access all gyms", "Priority booking"]
+    },
+    {
+      "id": "plan_quarter",
+      "name": "Quarterly Explorer",
+      "period": "Quarterly",
+      "price": 320.0,
+      "limits": "60 classes",
+      "perks": ["Free nutrition plan", "Store discounts"]
+    }
+  ]
+}
