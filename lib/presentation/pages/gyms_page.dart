@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
@@ -434,11 +436,35 @@ class _GymMapView extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Positioned.fill(
+                      child: CustomPaint(
+                        painter: _MapBackdropPainter(
+                          lineColor: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.06),
+                        ),
+                      ),
+                    ),
                     for (final gym in gyms)
-                      _GymMarker(
-                        gym: gym,
-                        left: (controller.normalizedPositionFor(gym).dx * width) - 16,
-                        top: (controller.normalizedPositionFor(gym).dy * height) - 16,
+                      Builder(
+                        builder: (context) {
+                          const markerSize = 32.0;
+                          final normalized = controller.normalizedPositionFor(gym);
+                          final rawLeft = normalized.dx * width;
+                          final rawTop = normalized.dy * height;
+                          final clampedLeft = rawLeft
+                              .clamp(markerSize / 2, math.max(markerSize / 2, width - markerSize / 2))
+                              .toDouble();
+                          final clampedTop = rawTop
+                              .clamp(markerSize / 2, math.max(markerSize / 2, height - markerSize / 2))
+                              .toDouble();
+                          return _GymMarker(
+                            gym: gym,
+                            left: clampedLeft - (markerSize / 2),
+                            top: clampedTop - (markerSize / 2),
+                          );
+                        },
                       ),
                   ],
                 );
@@ -462,8 +488,8 @@ class _GymMarker extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.primary;
     return Positioned(
-      left: left.clamp(0.0, double.infinity),
-      top: top.clamp(0.0, double.infinity),
+      left: left,
+      top: top,
       child: Tooltip(
         message: gym.name,
         child: GestureDetector(
@@ -490,4 +516,30 @@ class _GymMarker extends StatelessWidget {
       ),
     );
   }
+}
+
+class _MapBackdropPainter extends CustomPainter {
+  _MapBackdropPainter({required this.lineColor});
+
+  final Color lineColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = lineColor
+      ..strokeWidth = 1.2;
+    final secondaryPaint = Paint()
+      ..color = lineColor.withOpacity(0.6)
+      ..strokeWidth = 1.0;
+    const step = 48.0;
+    for (double offset = -size.height; offset < size.width; offset += step) {
+      canvas.drawLine(Offset(offset, 0), Offset(offset + size.height, size.height), paint);
+    }
+    for (double offset = 0; offset < size.width + size.height; offset += step) {
+      canvas.drawLine(Offset(offset, 0), Offset(0, offset), secondaryPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
