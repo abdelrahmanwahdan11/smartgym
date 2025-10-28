@@ -24,6 +24,10 @@ class SchemaMigrations {
       await _migrateToV4();
     }
 
+    if (fromVersion < 5 && currentVersion >= 5) {
+      await _migrateToV5(fromVersion: fromVersion);
+    }
+
     await store.setString(versionKey, currentVersion.toString());
   }
 
@@ -68,6 +72,53 @@ class SchemaMigrations {
     }
 
     await store.remove('search.index');
+  }
+
+  Future<void> _migrateToV5({required int fromVersion}) async {
+    final backup = <String, dynamic>{};
+    for (final key in store.getKeys()) {
+      if (key.startsWith('backup.')) continue;
+      final value = store.getValue(key);
+      if (value == null) continue;
+      if (value is List<String> ||
+          value is String ||
+          value is bool ||
+          value is int ||
+          value is double) {
+        backup[key] = value;
+      }
+    }
+    if (backup.isNotEmpty) {
+      await store.setString('backup.v4', jsonEncode(backup));
+    }
+
+    await store.setStringList('roles.active', store.getStringList('roles.active') ?? ['user']);
+    await store.setJson('provider.gyms', store.getJson('provider.gyms') ?? <String, dynamic>{});
+    await store.setJson('provider.trainers', store.getJson('provider.trainers') ?? <String, dynamic>{});
+    await store.setJson('provider.classes', store.getJson('provider.classes') ?? <String, dynamic>{});
+    await store.setJson('provider.products', store.getJson('provider.products') ?? <String, dynamic>{});
+    await store.setJson('moderation.queue', store.getJson('moderation.queue') ?? <String, dynamic>{});
+    await store.setJson('reports.closed', store.getJson('reports.closed') ?? <String, dynamic>{});
+    await store.setString('currency.code', store.getString('currency.code') ?? 'USD');
+    await store.setString('currency.fx', store.getString('currency.fx') ?? '1.0');
+    await store.setBool('vat.enabled', store.getBool('vat.enabled') ?? true);
+    await store.setBool('pin.enabled', store.getBool('pin.enabled') ?? false);
+    await store.setString('pin.code_hash', store.getString('pin.code_hash') ?? '');
+    await store.setBool('display.arabic_digits', store.getBool('display.arabic_digits') ?? false);
+    await store.setBool('units.metric', store.getBool('units.metric') ?? true);
+    await store.setJson('saved_filters.classes', store.getJson('saved_filters.classes') ?? <String, dynamic>{});
+    await store.setJson('saved_filters.store', store.getJson('saved_filters.store') ?? <String, dynamic>{});
+    await store.setJson('saved_searches.classes', store.getJson('saved_searches.classes') ?? <String, dynamic>{});
+    await store.setJson('saved_searches.store', store.getJson('saved_searches.store') ?? <String, dynamic>{});
+    await store.setBool('safe_mode.enabled', store.getBool('safe_mode.enabled') ?? false);
+    await store.setJson('feature_flags.v5', store.getJson('feature_flags.v5') ?? <String, dynamic>{});
+
+    await store.remove('feature_flags.v3');
+    await store.remove('search.index');
+    await store.setString('search.synonyms_version', '1');
+    if (fromVersion < 5) {
+      await store.setString('schema.migrated_from', fromVersion.toString());
+    }
   }
 }
 

@@ -29,4 +29,15 @@ class GymModel {
         photos: (map['photos'] as List<dynamic>? ?? []).cast<String>(),
         discount: map['discount'] as int? ?? 0,
       );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'name': name,
+        'location_text': locationText,
+        'amenities': amenities,
+        'equipment': equipment,
+        'rating': rating,
+        'photos': photos,
+        'discount': discount,
+      };
 }

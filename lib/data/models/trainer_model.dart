@@ -26,4 +26,14 @@ class TrainerModel {
         bio: map['bio'] as String? ?? '',
         rates: Map<String, dynamic>.from(map['rates'] as Map? ?? {}),
       );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'name': name,
+        'specialties': specialties,
+        'certs': certifications,
+        'rating': rating,
+        'bio': bio,
+        'rates': rates,
+      };
 }

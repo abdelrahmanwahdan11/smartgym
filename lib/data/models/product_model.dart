@@ -26,4 +26,14 @@ class ProductModel {
         images: (map['images'] as List<dynamic>? ?? []).cast<String>(),
         details: map['details'] as String? ?? '',
       );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'name': name,
+        'category': category,
+        'price': price,
+        'tags': tags,
+        'images': images,
+        'details': details,
+      };
 }

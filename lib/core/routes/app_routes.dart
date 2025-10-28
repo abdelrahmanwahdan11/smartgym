@@ -40,4 +40,9 @@ class AppRoutes {
   static const stories = '/stories';
   static const liveMini = '/live-mini';
   static const buddy = '/buddy';
+  static const provider = '/provider';
+  static const moderation = '/moderation';
+  static const reports = '/reports';
+  static const settingsSecurity = '/settings/security';
+  static const settingsFormatting = '/settings/formatting';
 }

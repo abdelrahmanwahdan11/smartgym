@@ -13,6 +13,8 @@ class LocalStore {
 
   String? getString(String key) => _prefs.getString(key);
 
+  List<String>? getStringList(String key) => _prefs.getStringList(key);
+
   Future<bool> setString(String key, String value) async {
     if (utf8.encode(value).length > _maxStringBytes) {
       return false;
@@ -48,6 +50,12 @@ class LocalStore {
   bool? getBool(String key) => _prefs.getBool(key);
 
   Future<bool> setBool(String key, bool value) => _prefs.setBool(key, value);
+
+  Future<bool> setStringList(String key, List<String> value) => _prefs.setStringList(key, value);
+
+  Object? getValue(String key) => _prefs.get(key);
+
+  Set<String> getKeys() => _prefs.getKeys();
 
   Future<bool> clearKeys(Iterable<String> keys) async {
     var result = true;

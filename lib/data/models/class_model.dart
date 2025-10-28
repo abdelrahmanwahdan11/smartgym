@@ -47,4 +47,21 @@ class ClassModel {
         requirements: (map['requirements'] as List<dynamic>? ?? []).cast<String>(),
         description: map['description'] as String? ?? '',
       );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'title': title,
+        'type': type,
+        'level': level,
+        'duration_min': durationMin,
+        'intensity': intensity,
+        'calories_est': caloriesEst,
+        'gym_id': gymId,
+        'trainer_id': trainerId,
+        'start_time': startTime.toIso8601String(),
+        'capacity': capacity,
+        'booked': booked,
+        'requirements': requirements,
+        'description': description,
+      };
 }
